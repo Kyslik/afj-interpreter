@@ -237,6 +237,7 @@
 				508A9AE91C74F34200EA833F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
