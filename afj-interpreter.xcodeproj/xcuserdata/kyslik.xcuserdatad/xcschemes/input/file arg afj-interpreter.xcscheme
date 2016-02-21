@@ -68,7 +68,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-f array.byte"
+            argument = "-f stream.byte"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
