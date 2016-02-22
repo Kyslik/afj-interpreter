@@ -12,9 +12,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+using namespace std;
+
 const char* VERSION="0.0.1";
 
-using namespace std;
+typedef basic_string<unsigned char> ustring;
 
 void showHelp (char *s);
 bool validateArguments (string &input_file, string &stream, string &stream_file);
@@ -22,14 +24,16 @@ bool fileExists (const string &file_name);
 string normalizeInputStream(string &stream, const string &stream_file);
 string normalizeSource(const string &source_file );
 string readFile(const string &file_name);
-//void readFile(string &file_name);
+string runInterpreter(const string &source, const string &stream, const string &turing_stream);
+ustring convert(const string &string);
 
 
 int main (int argc, char *argv[])
 {
     char get_opt;
-    string source_file, source, stream_file, stream;
-
+    string source_file, source, stream_file, stream, turing_stream;
+    ustring testing;
+    string test;
     if(argc == 1)
     {
         showHelp(argv[0]);
@@ -68,12 +72,24 @@ int main (int argc, char *argv[])
 
     stream = normalizeInputStream(stream, stream_file);
     source = normalizeSource(source_file);
-    //stream = "0";
-    //stream[0]++;
+    	
+    testing = convert("AB");
+    //testing[0] = ~testing[0];
+    //for (int i = 0; i<259; i++) {
+    //    cout << testing[0]++ << " ";
+    //}
 
-    cout << stream << endl;
+    cout << hex << testing[0] << endl;
+    testing[0] = ~testing[0];
+    cout << hex << testing[0] << endl;
+    testing[0] = ~testing[0];
+    cout << hex << testing[0] << endl;
 
-    //readFile(source_file);
+    cout << endl;
+    //stream[0] = stream[0] + 66;
+
+    //turing_stream = runInterpreter(source, stream, turing_stream);
+    //cout << (int) stream[0] << endl;
 
     return 0;
 }
@@ -124,6 +140,12 @@ bool validateArguments (string &input_file, string &stream, string &stream_file)
     return error;
 }
 
+string runInterpreter(const string &source, const string &stream, const string &turing_stream)
+{
+    return "";
+
+}
+
 string normalizeInputStream(string &stream, const string &stream_file)
 {
     if (stream.empty())
@@ -151,25 +173,7 @@ string readFile(const string &file_name)
     return stream;
 }
 
-//void readFile(string &file_name)
-//{
-//    char ch;
-//    fstream fin(file_name.c_str(), fstream::in);
-//
-//    while (fin >> skipws >> ch)
-//    {
-//        cout << ch;
-//    }
-//    cout << endl;
-//}
-
-
-
-
-
-
-
-
-
-
-
+ustring convert(const string &string)
+{
+    return ustring(string.begin(), string.end());
+}
