@@ -24,16 +24,68 @@ bool fileExists (const string &file_name);
 string normalizeInputStream(string &stream, const string &stream_file);
 string normalizeSource(const string &source_file );
 string readFile(const string &file_name);
-string runInterpreter(const string &source, const string &stream, const string &turing_stream);
+
+string runInterpreter(const string &source_code, const string &input_stream);
+
 ustring convert(const string &string);
+
+class BoundedIndex {
+    int current, min, max;
+public:
+    void setMinMax (int,int);
+    void setCurrent(int);
+    void setAll(int, int, int);
+    int getCurrent () {return current;}
+    void operator++(int)
+    {
+        if (current == max) {
+            current = min;
+        }
+        else
+        {
+            current++;
+        }
+    }
+
+    void operator--(int)
+    {
+        if (current == min) {
+            current = max;
+        }
+        else
+        {
+            current--;
+        }
+    }
+
+    void operator=(int i) {current = i;}
+};
+
+void BoundedIndex::setMinMax(int _min, int _max)
+{
+    min = _min;
+    max = _max;
+}
+
+void BoundedIndex::setCurrent(int _current)
+{
+    current = _current;
+}
+
+void BoundedIndex::setAll(int _current, int _min, int _max)
+{
+    current = _current;
+    min = _min;
+    max = _max;
+}
 
 
 int main (int argc, char *argv[])
 {
     char get_opt;
-    string source_file, source, stream_file, stream, turing_stream;
-    ustring testing;
-    string test;
+
+    string source_file, source_code, stream_file, stream, output_stream;
+
     if(argc == 1)
     {
         showHelp(argv[0]);
@@ -71,25 +123,9 @@ int main (int argc, char *argv[])
     }
 
     stream = normalizeInputStream(stream, stream_file);
-    source = normalizeSource(source_file);
-    	
-    testing = convert("AB");
-    //testing[0] = ~testing[0];
-    //for (int i = 0; i<259; i++) {
-    //    cout << testing[0]++ << " ";
-    //}
+    source_code = normalizeSource(source_file);
 
-    cout << hex << testing[0] << endl;
-    testing[0] = ~testing[0];
-    cout << hex << testing[0] << endl;
-    testing[0] = ~testing[0];
-    cout << hex << testing[0] << endl;
-
-    cout << endl;
-    //stream[0] = stream[0] + 66;
-
-    //turing_stream = runInterpreter(source, stream, turing_stream);
-    //cout << (int) stream[0] << endl;
+    output_stream = runInterpreter(source_code, stream);
 
     return 0;
 }
@@ -140,8 +176,29 @@ bool validateArguments (string &input_file, string &stream, string &stream_file)
     return error;
 }
 
-string runInterpreter(const string &source, const string &stream, const string &turing_stream)
+string runInterpreter(const string &source_code, const string &input_stream)
 {
+    int index_input_stream, index_source_code, index_turing_stream = 0;
+
+    BoundedIndex index;
+    index.setAll(0, 0, 10);
+    for (int i = 0; i < 25; i++) {
+        cout << index.getCurrent() << endl;
+        index++;
+    }
+
+    cout << "minusing" << endl;
+    index = 0;
+    for (int i = 0; i < 25; i++) {
+        cout << index.getCurrent() << endl;
+        index--;
+    }
+    //cout << index.getCurrent() << endl;
+
+    //ustring turing_stream = ustring(100000u, '0');
+    //ustring u_input_stream = convert(input_stream);
+
+
     return "";
 
 }
