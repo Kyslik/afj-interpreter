@@ -11,14 +11,16 @@
 #include <typeinfo>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "BoundedIndex.hpp"
 
 using namespace std;
 
-const char* VERSION="0.0.1";
+const char* VERSION="0.0.2";
 
 typedef basic_string<unsigned char> ustring;
 
 void showHelp (char *s);
+bool bracketsPairCheck(string &source_code);
 bool validateArguments (string &input_file, string &stream, string &stream_file);
 bool fileExists (const string &file_name);
 string normalizeInputStream(string &stream, const string &stream_file);
@@ -28,57 +30,6 @@ string readFile(const string &file_name);
 string runInterpreter(const string &source_code, const string &input_stream);
 
 ustring convert(const string &string);
-
-class BoundedIndex {
-    int current, min, max;
-public:
-    void setMinMax (int,int);
-    void setCurrent(int);
-    void setAll(int, int, int);
-    int getCurrent () {return current;}
-    void operator++(int)
-    {
-        if (current == max) {
-            current = min;
-        }
-        else
-        {
-            current++;
-        }
-    }
-
-    void operator--(int)
-    {
-        if (current == min) {
-            current = max;
-        }
-        else
-        {
-            current--;
-        }
-    }
-
-    void operator=(int i) {current = i;}
-};
-
-void BoundedIndex::setMinMax(int _min, int _max)
-{
-    min = _min;
-    max = _max;
-}
-
-void BoundedIndex::setCurrent(int _current)
-{
-    current = _current;
-}
-
-void BoundedIndex::setAll(int _current, int _min, int _max)
-{
-    current = _current;
-    min = _min;
-    max = _max;
-}
-
 
 int main (int argc, char *argv[])
 {
@@ -125,7 +76,9 @@ int main (int argc, char *argv[])
     stream = normalizeInputStream(stream, stream_file);
     source_code = normalizeSource(source_file);
 
-    output_stream = runInterpreter(source_code, stream);
+    cout << bracketsPairCheck(source_code) << endl;
+
+    //output_stream = runInterpreter(source_code, stream);
 
     return 0;
 }
@@ -178,21 +131,24 @@ bool validateArguments (string &input_file, string &stream, string &stream_file)
 
 string runInterpreter(const string &source_code, const string &input_stream)
 {
-    int index_input_stream, index_source_code, index_turing_stream = 0;
+    //int index_input_stream, index_source_code, index_turing_stream = 0;
 
-    BoundedIndex index;
-    index.setAll(0, 0, 10);
-    for (int i = 0; i < 25; i++) {
-        cout << index.getCurrent() << endl;
-        index++;
-    }
-
-    cout << "minusing" << endl;
-    index = 0;
-    for (int i = 0; i < 25; i++) {
-        cout << index.getCurrent() << endl;
-        index--;
-    }
+    BoundedIndex index(0, 100);
+    index.debug();
+    index++;
+    //cout << index << endl;
+//    index.setAll(0, 0, 10);
+//    for (int i = 0; i < 25; i++) {
+//        cout << index.getCurrent() << endl;
+//        index++;
+//    }
+//
+//    cout << "minusing" << endl;
+//    index = 0;
+//    for (int i = 0; i < 25; i++) {
+//        cout << index.getCurrent() << endl;
+//        index--;
+//    }
     //cout << index.getCurrent() << endl;
 
     //ustring turing_stream = ustring(100000u, '0');
@@ -233,4 +189,27 @@ string readFile(const string &file_name)
 ustring convert(const string &string)
 {
     return ustring(string.begin(), string.end());
+}
+
+const char *match(const char *str)
+{
+    if( *str == '\0' || *str == ']' ) { return str; }
+    if( *str == '[' )
+    {
+        const char *closer = match(++str);
+        if( *closer == ']' )
+        {
+            return match(++closer);
+        }
+        return str - 1;
+    }
+
+    return match(++str);
+}
+
+bool bracketsPairCheck(string &source_code)
+{
+    //const char *result = match(source_code.c_str());
+    if (*match(source_code.c_str()) == '\0') return true;
+    return false;
 }

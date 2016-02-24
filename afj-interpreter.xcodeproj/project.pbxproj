@@ -10,6 +10,7 @@
 		508A9AE41C74F34200EA833F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 508A9AE31C74F34200EA833F /* main.cpp */; };
 		50A51C381C7A066400215042 /* source.afj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50A51C361C7A057D00215042 /* source.afj */; };
 		50A51C391C7A066800215042 /* stream.byte in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50A51C371C7A059400215042 /* stream.byte */; };
+		50A51C501C7CAD2300215042 /* BoundedIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50A51C4E1C7CAD2300215042 /* BoundedIndex.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		508A9AE31C74F34200EA833F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50A51C361C7A057D00215042 /* source.afj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = source.afj; sourceTree = "<group>"; };
 		50A51C371C7A059400215042 /* stream.byte */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stream.byte; sourceTree = "<group>"; };
+		50A51C4E1C7CAD2300215042 /* BoundedIndex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundedIndex.cpp; sourceTree = "<group>"; };
+		50A51C4F1C7CAD2300215042 /* BoundedIndex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoundedIndex.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,8 @@
 			isa = PBXGroup;
 			children = (
 				508A9AE31C74F34200EA833F /* main.cpp */,
+				50A51C4E1C7CAD2300215042 /* BoundedIndex.cpp */,
+				50A51C4F1C7CAD2300215042 /* BoundedIndex.hpp */,
 				50A51C361C7A057D00215042 /* source.afj */,
 				50A51C371C7A059400215042 /* stream.byte */,
 			);
@@ -126,6 +131,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50A51C501C7CAD2300215042 /* BoundedIndex.cpp in Sources */,
 				508A9AE41C74F34200EA833F /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
