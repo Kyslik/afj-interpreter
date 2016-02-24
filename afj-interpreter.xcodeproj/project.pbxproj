@@ -28,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		50463A0F1C7E39F1000B35BC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		508A9AE01C74F34200EA833F /* afj-interpreter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "afj-interpreter"; sourceTree = BUILT_PRODUCTS_DIR; };
 		508A9AE31C74F34200EA833F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50A51C361C7A057D00215042 /* source.afj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = source.afj; sourceTree = "<group>"; };
@@ -52,6 +53,7 @@
 			children = (
 				508A9AE21C74F34200EA833F /* afj-interpreter */,
 				508A9AE11C74F34200EA833F /* Products */,
+				50463A0F1C7E39F1000B35BC /* README.md */,
 			);
 			sourceTree = "<group>";
 		};

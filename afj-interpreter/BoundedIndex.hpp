@@ -28,6 +28,23 @@ public:
 
     int curr() const { return current; }
 
+    bool isNextIncrementOverflowing()
+    {
+        if (current == max) return true;
+        return false;
+    }
+
+    bool isNextDecrementUnderflowing()
+    {
+        if (current == min) return true;
+        return false;
+    }
+
+    bool isNextCrementumFlowing()
+    {
+        return isNextIncrementOverflowing() || isNextDecrementUnderflowing();
+    }
+
     void debug()
     {
         std::cout << "BoundedIndex Class debug(): " << std::endl;
