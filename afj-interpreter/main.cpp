@@ -24,6 +24,8 @@ typedef basic_string<unsigned char> ustring;
 void showHelp (char *s);
 void printStreamAsHex(const string &string);
 void printStreamAsHex(const ustring &ustring);
+void printStreamAsString(const string &string);
+void printStreamAsString(const ustring &ustring);
 
 bool bracketsPairCheck(string &source_code);
 bool validateArguments (string &input_file, string &stream, string &stream_file);
@@ -40,7 +42,7 @@ int main (int argc, char *argv[])
 {
     char get_opt;
 
-    string source_code, stream_file, stream, output_stream;
+    string source_code, stream_file, stream;
 
     if(argc == 1)
     {
@@ -82,7 +84,9 @@ int main (int argc, char *argv[])
     source_code = normalizeSource(source_code);
     if (bracketsPairCheck(source_code))
     {
-        printStreamAsHex(runInterpreter(source_code, stream));
+        const ustring output = runInterpreter(source_code, stream);
+        printStreamAsHex(output);
+        printStreamAsString(output);
     }
     else
     {
@@ -290,20 +294,36 @@ void printStreamAsHex(const ustring &ustring)
     if (!ustring.empty()) {
         cout << "Printing stream as hex (each byte prefixed with \"0x\"):" << endl;
         for (int i = 0; i < ustring.length(); i++) {
-            cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)ustring[i] << "\t";
-        }
-        cout << endl << endl;
-
-        cout << "Printing stream as string:" << endl;
-        for (int i = 0; i < ustring.length(); i++) {
-            cout << ustring[i] << "\t";
+            cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)ustring[i] << " ";
         }
         cout << endl;
     }
     else
     {
-        cout << "Stream is empty nothing to print." << endl;
+        cout << "Stream is empty, nothing to print." << endl;
     }
+}
+
+void printStreamAsString(const string &string)
+{
+    const ustring ustring = convert(string);
+    printStreamAsString(ustring);
+}
+
+void printStreamAsString(const ustring &ustring)
+{
+    if (!ustring.empty()) {
+        cout << "Printing stream as string:" << endl;
+        for (int i = 0; i < ustring.length(); i++) {
+            cout << ustring[i] << " ";
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "Stream is empty, nothing to print." << endl;
+    }
+
 }
 
 const char *match(const char *str)
