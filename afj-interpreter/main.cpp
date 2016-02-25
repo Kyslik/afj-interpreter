@@ -292,6 +292,12 @@ void printStreamAsHex(const ustring &ustring)
         for (int i = 0; i < ustring.length(); i++) {
             cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)ustring[i] << "\t";
         }
+        cout << endl << endl;
+
+        cout << "Printing stream as string:" << endl;
+        for (int i = 0; i < ustring.length(); i++) {
+            cout << ustring[i] << "\t";
+        }
         cout << endl;
     }
     else
