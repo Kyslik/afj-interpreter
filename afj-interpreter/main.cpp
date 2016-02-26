@@ -16,7 +16,7 @@
 
 using namespace std;
 
-const char* VERSION = "1.0.2";
+const char* VERSION = "1.0.3";
 const char DEFAULT_NULL = NULL;
 
 typedef basic_string<unsigned char> ustring;
@@ -28,10 +28,10 @@ void printStreamAsString(const string &string);
 void printStreamAsString(const ustring &ustring);
 
 bool bracketsPairCheck(string &source_code);
-bool validateArguments (string &input_file, string &stream, string &stream_file);
+bool validateArguments (string &input_file, string &input_stream, string &stream_file);
 bool fileExists (const string &file_name);
 
-string normalizeInputStream(string &stream, const string &stream_file);
+string normalizeInputStream(string &input_stream, const string &stream_file);
 string normalizeSource(const string &source_code );
 string readFile(const string &file_name, bool skip_white_space = true);
 string readBinaryFile(const string &file_name);
@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
 {
     char get_opt;
 
-    string source_code, stream_file, stream;
+    string source_code, stream_file, input_stream;
 
     if(argc == 1)
     {
@@ -65,7 +65,7 @@ int main (int argc, char *argv[])
                 source_code = strdup(optarg);
                 break;
             case 's':
-                stream = strdup(optarg);
+                input_stream = strdup(optarg);
                 break;
             case 'f':
                 stream_file = strdup(optarg);
@@ -76,17 +76,17 @@ int main (int argc, char *argv[])
         }
     }
 
-    if (validateArguments(source_code, stream, stream_file))
+    if (validateArguments(source_code, input_stream, stream_file))
     {
         return 1;
     }
 
-    stream = normalizeInputStream(stream, stream_file);
+    input_stream = normalizeInputStream(input_stream, stream_file);
     source_code = normalizeSource(source_code);
 
     if (bracketsPairCheck(source_code))
     {
-        const ustring output = runInterpreter(source_code, stream);
+        const ustring output = runInterpreter(source_code, input_stream);
         //printStreamAsHex(output);
         printStreamAsString(output);
     }
@@ -116,7 +116,7 @@ bool fileExists (const string& file_name)
     return (stat (file_name.c_str(), &buffer) == 0);
 }
 
-bool validateArguments (string &source_code, string &stream, string &stream_file)
+bool validateArguments (string &source_code, string &input_stream, string &stream_file)
 {
     if (source_code.empty())
     {
@@ -129,7 +129,7 @@ bool validateArguments (string &source_code, string &stream, string &stream_file
         return true;
     }
 
-    if (stream.empty() && stream_file.empty())
+    if (input_stream.empty() && stream_file.empty())
     {
         cout << "Input stream (or stream file) not defined by user, please use either -s or -f option. \nUsing '0x00' (NULL) for all R instructions." << endl;
     }
@@ -185,11 +185,11 @@ ustring runInterpreter(string &source_code, const string &input_stream)
     BoundedIndex data_index(0, data_size - 1),
                  input_index(0, input_stream_size);
 
-    ustring u_data_stream = ustring(data_size, DEFAULT_NULL),
-            u_input_stream = convert(input_stream),
-            u_output_stream;
+    const ustring
+            u_input_stream = convert(input_stream);
 
-    int i = 0;
+    ustring u_output_stream,
+            u_data_stream = ustring(data_size, DEFAULT_NULL);
 
     for(string::iterator it = source_code.begin(); it != source_code.end(); ++it)
     {
@@ -235,19 +235,19 @@ ustring runInterpreter(string &source_code, const string &input_stream)
             default:
                 break;
         }
-        i++;
+
     }
     return u_output_stream;
 
 }
 
-string normalizeInputStream(string &stream, const string &stream_file)
+string normalizeInputStream(string &input_stream, const string &stream_file)
 {
-    if (stream.empty())
+    if (input_stream.empty())
     {
         return readBinaryFile(stream_file);
     }
-    return stream;
+    return input_stream;
 }
 
 string normalizeSource(const string &source_code)
@@ -257,29 +257,29 @@ string normalizeSource(const string &source_code)
 
 string readFile(const string &file_name, bool skip_white_space)
 {
-    string stream;
+    string input_stream;
     char ch;
 
     fstream fin(file_name, fstream::in);
     while(fin >> ((skip_white_space) ? skipws : noskipws) >> ch)
     {
-        stream.append(&ch);
+        input_stream.append(&ch);
     }
 
-    return stream;
+    return input_stream;
 }
 
 string readBinaryFile(const string &file_name)
 {
-    string stream;
+    string input_stream;
     ifstream fin(file_name, ios::binary);
     while (fin)
     {
-        stream+=(char) fin.get();
+        input_stream+=(char) fin.get();
 
     }
-    stream.pop_back();
-    return stream;
+    input_stream.pop_back();
+    return input_stream;
 }
 
 ustring convert(const string &string)
