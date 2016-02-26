@@ -11,7 +11,7 @@
 #include <typeinfo>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "BoundedIndex.hpp"
+#include "lib/BoundedIndex/BoundedIndex.hpp"
 #include <iomanip>
 
 using namespace std;
