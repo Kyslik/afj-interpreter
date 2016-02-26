@@ -11,7 +11,8 @@
 		50A51C381C7A066400215042 /* source.afj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50A51C361C7A057D00215042 /* source.afj */; };
 		50A51C391C7A066800215042 /* stream.byte in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50A51C371C7A059400215042 /* stream.byte */; };
 		50A51C501C7CAD2300215042 /* BoundedIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50A51C4E1C7CAD2300215042 /* BoundedIndex.cpp */; };
-		50D7C1631C7FC9360040AEC1 /* hello-world.afj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50D7C1621C7FC9270040AEC1 /* hello-world.afj */; };
+		50D7C1661C7FCF120040AEC1 /* hello-world.afj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50D7C1621C7FC9270040AEC1 /* hello-world.afj */; };
+		50D7C1671C7FCF120040AEC1 /* fibonacci.afj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50D7C1651C7FCECB0040AEC1 /* fibonacci.afj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -21,7 +22,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				50D7C1631C7FC9360040AEC1 /* hello-world.afj in CopyFiles */,
+				50D7C1661C7FCF120040AEC1 /* hello-world.afj in CopyFiles */,
+				50D7C1671C7FCF120040AEC1 /* fibonacci.afj in CopyFiles */,
 				50A51C391C7A066800215042 /* stream.byte in CopyFiles */,
 				50A51C381C7A066400215042 /* source.afj in CopyFiles */,
 			);
@@ -37,7 +39,8 @@
 		50A51C371C7A059400215042 /* stream.byte */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stream.byte; sourceTree = "<group>"; };
 		50A51C4E1C7CAD2300215042 /* BoundedIndex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundedIndex.cpp; sourceTree = "<group>"; };
 		50A51C4F1C7CAD2300215042 /* BoundedIndex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoundedIndex.hpp; sourceTree = "<group>"; };
-		50D7C1621C7FC9270040AEC1 /* hello-world.afj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "hello-world.afj"; sourceTree = "<group>"; };
+		50D7C1621C7FC9270040AEC1 /* hello-world.afj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "hello-world.afj"; path = "afj-interpreter/hello-world.afj"; sourceTree = "<group>"; };
+		50D7C1651C7FCECB0040AEC1 /* fibonacci.afj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fibonacci.afj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +57,7 @@
 		508A9AD71C74F34200EA833F = {
 			isa = PBXGroup;
 			children = (
+				50D7C1641C7FCEA40040AEC1 /* examples */,
 				508A9AE21C74F34200EA833F /* afj-interpreter */,
 				508A9AE11C74F34200EA833F /* Products */,
 				50463A0F1C7E39F1000B35BC /* README.md */,
@@ -76,9 +80,17 @@
 				50A51C4F1C7CAD2300215042 /* BoundedIndex.hpp */,
 				50A51C361C7A057D00215042 /* source.afj */,
 				50A51C371C7A059400215042 /* stream.byte */,
-				50D7C1621C7FC9270040AEC1 /* hello-world.afj */,
 			);
 			path = "afj-interpreter";
+			sourceTree = "<group>";
+		};
+		50D7C1641C7FCEA40040AEC1 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				50D7C1621C7FC9270040AEC1 /* hello-world.afj */,
+				50D7C1651C7FCECB0040AEC1 /* fibonacci.afj */,
+			);
+			name = examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -87,12 +87,12 @@ int main (int argc, char *argv[])
     if (bracketsPairCheck(source_code))
     {
         const ustring output = runInterpreter(source_code, stream);
-        printStreamAsHex(output);
+        //printStreamAsHex(output);
         printStreamAsString(output);
     }
     else
     {
-        cout << "Source code syntax error: brackets do not match.";
+        cout << "Source code syntax error: brackets do not match." << endl;
     }
 
     return 0;
