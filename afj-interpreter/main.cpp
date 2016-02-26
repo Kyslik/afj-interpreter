@@ -16,8 +16,8 @@
 
 using namespace std;
 
-const char* VERSION = "1.0.0";
-const char DEFAULT_NULL=NULL;
+const char* VERSION = "1.0.2";
+const char DEFAULT_NULL = NULL;
 
 typedef basic_string<unsigned char> ustring;
 
@@ -34,6 +34,7 @@ bool fileExists (const string &file_name);
 string normalizeInputStream(string &stream, const string &stream_file);
 string normalizeSource(const string &source_code );
 string readFile(const string &file_name, bool skip_white_space = true);
+string readBinaryFile(const string &file_name);
 
 ustring runInterpreter(string &source_code, const string &input_stream);
 ustring convert(const string &string);
@@ -82,6 +83,7 @@ int main (int argc, char *argv[])
 
     stream = normalizeInputStream(stream, stream_file);
     source_code = normalizeSource(source_code);
+
     if (bracketsPairCheck(source_code))
     {
         const ustring output = runInterpreter(source_code, stream);
@@ -150,13 +152,10 @@ string::iterator bracketMatchOpen(const string &source_code, string::iterator it
 
     for (;it != source_code.end(); ++it)
     {
-        if (*it == ']' && brackets == 1) {
+        if (*it == ']' && brackets == 1)
             return it;
-        }
         else if (*it == ']' && brackets != 1)
-        {
             brackets--;
-        }
 
         if (*it == '[') brackets++;
     }
@@ -168,13 +167,10 @@ string::iterator bracketMatchClose(const string &source_code, string::iterator i
     int brackets = 0;
     for (;it != source_code.begin(); --it)
     {
-        if (*it == '[' && brackets == 1) {
+        if (*it == '[' && brackets == 1)
             return it;
-        }
         else if (*it == '[' && brackets != 1)
-        {
             brackets--;
-        }
 
         if (*it == ']') brackets++;
     }
@@ -197,7 +193,7 @@ ustring runInterpreter(string &source_code, const string &input_stream)
 
     for(string::iterator it = source_code.begin(); it != source_code.end(); ++it)
     {
-        //cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)u_data_stream[data_index.curr()] << "\n";
+        //cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)u_data_stream[data_index.curr()] << "\t";
         switch (*it) {
             case '<':
                 data_index--;
@@ -230,15 +226,11 @@ ustring runInterpreter(string &source_code, const string &input_stream)
                 break;
             case '[':
                 if (u_data_stream[data_index.curr()] == DEFAULT_NULL)
-                {
                     it = bracketMatchOpen(source_code, it);
-                }
                 break;
             case ']':
                 if (u_data_stream[data_index.curr()] != DEFAULT_NULL)
-                {
                     it = bracketMatchClose(source_code, it);
-                }
                 break;
             default:
                 break;
@@ -253,7 +245,7 @@ string normalizeInputStream(string &stream, const string &stream_file)
 {
     if (stream.empty())
     {
-        return readFile(stream_file, false);
+        return readBinaryFile(stream_file);
     }
     return stream;
 }
@@ -269,12 +261,24 @@ string readFile(const string &file_name, bool skip_white_space)
     char ch;
 
     fstream fin(file_name, fstream::in);
-
     while(fin >> ((skip_white_space) ? skipws : noskipws) >> ch)
     {
         stream.append(&ch);
     }
 
+    return stream;
+}
+
+string readBinaryFile(const string &file_name)
+{
+    string stream;
+    ifstream fin(file_name, ios::binary);
+    while (fin)
+    {
+        stream+=(char) fin.get();
+
+    }
+    stream.pop_back();
     return stream;
 }
 
@@ -294,7 +298,7 @@ void printStreamAsHex(const ustring &ustring)
     if (!ustring.empty()) {
         cout << "Printing stream as hex (each byte prefixed with \"0x\"):" << endl;
         for (int i = 0; i < ustring.length(); i++) {
-            cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)ustring[i] << " ";
+            cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)ustring[i] << "\t";
         }
         cout << endl;
     }
@@ -313,9 +317,9 @@ void printStreamAsString(const string &string)
 void printStreamAsString(const ustring &ustring)
 {
     if (!ustring.empty()) {
-        cout << "Printing stream as string:" << endl;
+        cout << "Printing stream as string: " << endl;
         for (int i = 0; i < ustring.length(); i++) {
-            cout << ustring[i] << " ";
+            cout << ustring[i];
         }
         cout << endl;
     }

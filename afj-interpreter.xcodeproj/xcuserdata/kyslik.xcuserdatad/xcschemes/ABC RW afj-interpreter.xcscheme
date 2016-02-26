@@ -68,7 +68,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-s &quot;ABCDE123456&quot;"
+            argument = "-s &quot;ABC&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
