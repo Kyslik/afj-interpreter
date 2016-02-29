@@ -9,13 +9,14 @@
 #ifndef BoundedIndex_hpp
 #define BoundedIndex_hpp
 
-#include <stdio.h>
 #include <limits>
 #include <iostream>
 
 class BoundedIndex
 {
+private:
     int current, min, max;
+    
 public:
     BoundedIndex(int _current, int _min, int _max) : current(_current), min(_min), max(_max) {}
     BoundedIndex(int _min, int _max) : current(0), min(_min), max(_max) {}
@@ -26,54 +27,13 @@ public:
     }
     BoundedIndex() : BoundedIndex(0) {}
 
-    int curr() const { return current; }
-
-    bool isNextIncrementOverflowing()
-    {
-        if (current == max) return true;
-        return false;
-    }
-
-    bool isNextDecrementUnderflowing()
-    {
-        if (current == min) return true;
-        return false;
-    }
-
-    bool isNextCrementumFlowing()
-    {
-        return isNextIncrementOverflowing() || isNextDecrementUnderflowing();
-    }
-
-    void debug()
-    {
-        std::cout << "BoundedIndex Class debug(): " << std::endl;
-        std::cout << "\tcurrent: " << current << std::endl;
-        std::cout << "\tmax (upper bound): " << max << std::endl;
-        std::cout << "\tmin (lower bound): " << min << std::endl;
-    }
-
-    void operator++(int)
-    {
-        if (current == max)
-            current = min;
-        else
-            current++;
-    }
-
-    void operator--(int)
-    {
-        if (current == min)
-            current = max;
-        else
-            current--;
-    }
-
-    void operator=(int _current)
-    {
-        current = _current;
-    }
+    inline int curr() const { return current; }
+    bool isNextIncrementOverflowing();
+    bool isNextDecrementUnderflowing();
+    bool isNextCrementumFlowing();
+    void debug();
+    void operator++(int);
+    void operator--(int);
+    void operator=(int _current);
 };
-
-
 #endif /* BoundedIndex_hpp */

@@ -11,7 +11,6 @@
 		50A51C381C7A066400215042 /* source.afj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50A51C361C7A057D00215042 /* source.afj */; };
 		50A51C391C7A066800215042 /* stream.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50A51C371C7A059400215042 /* stream.bin */; };
 		50D7C1661C7FCF120040AEC1 /* hello-world.afj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50D7C1621C7FC9270040AEC1 /* hello-world.afj */; };
-		50D7C1771C80EA460040AEC1 /* lib in Sources */ = {isa = PBXBuildFile; fileRef = 50D7C1751C80EA0B0040AEC1 /* lib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -143,7 +142,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50D7C1771C80EA460040AEC1 /* lib in Sources */,
 				508A9AE41C74F34200EA833F /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

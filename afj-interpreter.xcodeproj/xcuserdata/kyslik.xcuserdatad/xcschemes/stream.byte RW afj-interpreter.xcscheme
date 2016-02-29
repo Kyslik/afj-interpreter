@@ -68,7 +68,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-f stream.byte"
+            argument = "-f stream.bin"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
