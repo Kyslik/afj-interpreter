@@ -16,26 +16,21 @@
 
 using namespace std;
 
-const char* VERSION = "1.0.5";
+const char* VERSION = "1.0.9";
 
 void showHelp (char *s);
 
-bool validateArguments (string &input_file, const string &input_stream, const string &stream_file, const string &out_option);
+bool validateArguments (string &input_file, const string &input_stream, const string &stream_file, string *out_file, bool *overwrite_out_file, const string &print_option);
 bool fileExists (const string &file_name);
 
 int main (int argc, char *argv[])
 {
     char get_opt;
 
-    string source_code, stream_file, input_stream, out_option;
+    string source_code, stream_file, input_stream, print_option, out_file;
+    bool overwrite_out_file = false;
 
-    if(argc == 1)
-    {
-        showHelp(argv[0]);
-        return 1;
-    }
-
-    while((get_opt = getopt(argc, argv, "hvi:s:f:o:")) != -1)
+    while((get_opt = getopt(argc, argv, "hvi:s:f:p:o:x")) != -1)
     {
         switch(get_opt)
         {
@@ -54,8 +49,14 @@ int main (int argc, char *argv[])
             case 'f':
                 stream_file = strdup(optarg);
                 break;
+            case 'p':
+                print_option = strdup(optarg);
+                break;
             case 'o':
-                out_option = strdup(optarg);
+                out_file = strdup(optarg);
+                break;
+            case 'x':
+                overwrite_out_file = true;
                 break;
             default:
                 showHelp(argv[0]);
@@ -63,17 +64,18 @@ int main (int argc, char *argv[])
         }
     }
 
-    if (validateArguments(source_code, input_stream, stream_file, out_option))
+    if (!validateArguments(source_code, input_stream, stream_file, &out_file, &overwrite_out_file, print_option))
     {
         return 1;
     }
 
-    Interpreter Interpreter(source_code, input_stream, stream_file);
+    Interpreter Interpreter(source_code, input_stream, stream_file, out_file, print_option);
 
     if (Interpreter.bracketsPairCheck())
     {
         Interpreter.run();
-        Interpreter.printHex();
+        Interpreter.writeOutputToFile();
+        Interpreter.print();
     }
     else
     {
@@ -86,15 +88,18 @@ int main (int argc, char *argv[])
 void showHelp(char *s)
 {
     cout << "Usage:   " << s << " [-option] [argument]" << endl;
-    cout << "option:  " << "-h  show help information" << endl;
+    cout << "option:  " << "-h  show help" << endl;
     cout << "         " << "-v  show version infomation" << endl;
-    cout << "         " << "-i  input file (source file)" << endl;
+    cout << "         " << "-i  input file (source code file) / default \"source.afj\"" << endl;
     cout << "         " << "-s  byte stream enclosed in \" ex: \"myStream\"" << endl;
-    cout << "         " << "-f  file with input stream (binary data)" << endl;
-    cout << "         " << "-o  hex | str | hexstr | \"file name\" where output is saved as binary data" << endl;
+    cout << "         " << "-f  file with input stream (binary file)" << endl;
+    cout << "         " << "-p  hex (default) | str | hexstr / print to console" << endl;
+    cout << "         " << "-o  \"file name\" where output is saved as binary data" << endl;
+    cout << "         " << "-x  do not ask to overwrite output file (DOES OVERWRITE FILE)" << endl;
     cout << endl;
-    cout << "example: " << s << " -i source.afj -s \"hello world!\" -o hex" << endl;
-    cout << "example: " << s << " -i source.afj -f stream.bin -o hexstr" << endl;
+    cout << "example: " << s << endl;
+    cout << "example: " << s << " -i source.afj -s \"hello world!\" -p hex" << endl;
+    cout << "example: " << s << " -i source.afj -f stream.bin -p hexstr" << endl;
     cout << "example: " << s << " -i source.afj -o myoutfile.bin" << endl;
 }
 
@@ -104,31 +109,68 @@ inline bool fileExists (const string& file_name)
     return (stat (file_name.c_str(), &buffer) == 0);
 }
 
-bool validateArguments (string &source_code, const string &input_stream, const string &stream_file, const string &out_option)
+bool validateArguments (string &source_code,
+                        const string &input_stream,
+                        const string &stream_file,
+                        string *out_file,
+                        bool *overwrite_out_file,
+                        const string &print_option)
 {
     if (source_code.empty())
     {
         cerr << "Input file (source file) not specified. Please use -i option. \nTrying \"source.afj\"" << endl;
         source_code = "source.afj";
     }
-    else if (!fileExists(source_code))
+
+    if (!fileExists(source_code))
     {
-        cerr << "File \"" << source_code << "\" does not exists." << endl;
-        return true;
+        cerr << "File \"" << source_code << "\" does not exist." << endl;
+        return false;
     }
 
     if (input_stream.empty() && stream_file.empty())
     {
-        cout << "Input stream (or stream file) not defined by user, please use either -s or -f option. \nUsing '0x00' (NULL) for all R instructions." << endl;
+        cout << "Input stream (or stream file) not defined by user, please use either -s or -f option. \nUsing '0x00' (NULL) for all \"R\" instructions." << endl;
     }
 
-    if (!stream_file.empty())
+    if (!stream_file.empty() && !fileExists(stream_file))
     {
-        if(!fileExists(stream_file))
-        {
-            cerr << "File \"" << stream_file << "\" does not exists." << endl;
-            return true;
-        }
+        cerr << "File \"" << stream_file << "\" does not exist." << endl;
+        return false;
     }
-    return false;
+
+    string _out_file = *out_file;
+    
+    if (!_out_file.empty() && !*overwrite_out_file && fileExists(_out_file))
+    {
+        char yes_no;
+
+        cout << "File \"" << _out_file << "\" already exist (use option -x to make this question disappear in future), do you want to overwrite?" << endl;
+
+        do
+        {
+            cout << "[y/n]" << endl;
+            cin >> yes_no;
+        }
+        while(!cin.fail() && yes_no != 'y' && yes_no != 'n');
+
+        if (yes_no == 'y')
+        {
+            *overwrite_out_file = true;
+            cout << "File \"" << _out_file << "\" will be overwritten." << endl;
+        }
+        else
+        {
+            cout << "Program continues without writing any data to file \"" << _out_file << "\"." << endl;
+            *out_file = _out_file.erase();
+        }
+
+    }
+
+    if (!(!print_option.compare("hex") || !print_option.compare("str") || !print_option.compare("hexstr")))
+    {
+        cout << "Printing option is unrecognized using default printing method (hex)." << endl;
+    }
+
+    return true;
 }

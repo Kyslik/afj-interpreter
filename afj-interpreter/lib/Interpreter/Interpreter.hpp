@@ -24,20 +24,27 @@ typedef basic_string<unsigned char> ustring;
 class Interpreter
 {
 private:
-    string source_code, input_stream;
+    string source_code, input_stream, out_file, print_option;
     ustring u_output_stream;
 
 public:
-    Interpreter(string _source_code, string _input_stream, string _stream_file)
+    Interpreter(string _source_code, string _input_stream, string _stream_file, string _out_file, string _print_option)
     {
         source_code = normalizeSource(_source_code);
         input_stream = normalizeInputStream(_input_stream, _stream_file);
+        out_file = _out_file;
+        print_option = _print_option;
     };
 
     void run();
-    void printHex();
-    void printString();
+    inline void writeOutputToFile()
+    {
+        writeBinaryFile(out_file);
+    }
+
+    void print();
     bool bracketsPairCheck();
+
     
 private:
     inline ustring convert(const string &string)
@@ -74,10 +81,12 @@ private:
 
     string readFile(const string &file_name, bool skip_white_space);
     string readBinaryFile(const string &file_name);
-    string writeBinaryFile(const string &file_name);
+    void writeBinaryFile(const string &file_name);
     
     void printStreamAsHex(const ustring &ustring);
     void printStreamAsString(const ustring &ustring);
+    void printHex();
+    void printString();
 
     const char *match(const char *str)
     {

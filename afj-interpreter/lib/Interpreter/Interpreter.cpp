@@ -67,6 +67,30 @@ void Interpreter::run()
     }
 }
 
+void Interpreter::print()
+{
+    if (!u_output_stream.empty())
+    {
+        if (!print_option.compare("str"))
+        {
+            printStreamAsString(u_output_stream);
+        }
+        else if (!print_option.compare("hexstr"))
+        {
+            printStreamAsHex(u_output_stream);
+            printStreamAsString(u_output_stream);
+        }
+        else
+        {
+            printStreamAsHex(u_output_stream);
+        }
+    }
+    else
+    {
+        cout << "(out) Stream is empty, nothing to print." << endl;
+    }
+}
+
 void Interpreter::printHex()
 {
     printStreamAsHex(u_output_stream);
@@ -117,15 +141,11 @@ string::iterator Interpreter::bracketMatchClose(const string &source_code, strin
 void Interpreter::printStreamAsHex(const ustring &ustring)
 {
     if (!ustring.empty()) {
-        cout << "Printing (out) stream as hex (each byte prefixed with \"0x\"):" << endl;
+        cout << "Printing (output) stream as hex (each byte prefixed with \"0x\"):" << endl;
         for (int i = 0; i < ustring.length(); i++) {
             cout << "0x" << hex << setfill('0') << setw(2) << uppercase << (unsigned int)ustring[i] << "\t";
         }
         cout << endl;
-    }
-    else
-    {
-        cout << "Stream is empty, nothing to print." << endl;
     }
 }
 
@@ -133,17 +153,12 @@ void Interpreter::printStreamAsHex(const ustring &ustring)
 void Interpreter::printStreamAsString(const ustring &ustring)
 {
     if (!ustring.empty()) {
-        cout << "Printing (out) stream as string: " << endl;
+        cout << "Printing (output) stream as string: " << endl;
         for (int i = 0; i < ustring.length(); i++) {
             cout << ustring[i];
         }
         cout << endl;
     }
-    else
-    {
-        cout << "Stream is empty, nothing to print." << endl;
-    }
-
 }
 
 string Interpreter::readFile(const string &file_name, bool skip_white_space)
@@ -167,20 +182,22 @@ string Interpreter::readBinaryFile(const string &file_name)
     while (fin)
     {
         in_stream+=(char) fin.get();
-
     }
     in_stream.pop_back();
     return in_stream;
 }
 
-string Interpreter::writeBinaryFile(const string &file_name)
+void Interpreter::writeBinaryFile(const string &file_name)
 {
-    ifstream fin(file_name, ios::binary);
-    while (fin)
+    if (!file_name.empty())
     {
-        input_stream+=(char) fin.get();
+        ofstream fo(file_name, ios::binary);
 
+        if (fo.is_open())
+        {
+            fo.write ((char *) u_output_stream.data(), u_output_stream.length());
+            fo.close();
+        }
+        //else cerr << "Can not open file!" << endl;
     }
-    input_stream.pop_back();
-    return input_stream;
 }
