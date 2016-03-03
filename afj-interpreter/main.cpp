@@ -116,6 +116,8 @@ bool validateArguments (string &source_code,
                         bool *overwrite_out_file,
                         const string &print_option)
 {
+    string _out_file = *out_file;
+
     if (source_code.empty())
     {
         cerr << "Input file (source file) not specified. Please use -i option. \nTrying \"source.afj\"" << endl;
@@ -138,8 +140,6 @@ bool validateArguments (string &source_code,
         cerr << "File \"" << stream_file << "\" does not exist." << endl;
         return false;
     }
-
-    string _out_file = *out_file;
     
     if (!_out_file.empty() && !*overwrite_out_file && fileExists(_out_file))
     {
@@ -164,7 +164,6 @@ bool validateArguments (string &source_code,
             cout << "Program continues without writing any data to file \"" << _out_file << "\"." << endl;
             *out_file = _out_file.erase();
         }
-
     }
 
     if (!(!print_option.compare("hex") || !print_option.compare("str") || !print_option.compare("hexstr")))
