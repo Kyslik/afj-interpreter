@@ -162,7 +162,19 @@ string Interpreter::readFile(const string &file_name, bool skip_white_space)
 
 string Interpreter::readBinaryFile(const string &file_name)
 {
-    string input_stream;
+    string in_stream;
+    ifstream fin(file_name, ios::binary);
+    while (fin)
+    {
+        in_stream+=(char) fin.get();
+
+    }
+    in_stream.pop_back();
+    return in_stream;
+}
+
+string Interpreter::writeBinaryFile(const string &file_name)
+{
     ifstream fin(file_name, ios::binary);
     while (fin)
     {

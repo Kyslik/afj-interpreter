@@ -74,6 +74,7 @@ private:
 
     string readFile(const string &file_name, bool skip_white_space);
     string readBinaryFile(const string &file_name);
+    string writeBinaryFile(const string &file_name);
     
     void printStreamAsHex(const ustring &ustring);
     void printStreamAsString(const ustring &ustring);

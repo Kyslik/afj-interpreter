@@ -41,9 +41,9 @@ int main (int argc, char *argv[])
         {
             case 'h':
                 showHelp(argv[0]);
-                break;
+                return 0;
             case 'v':
-                cout << "The current version is " << VERSION << endl;
+                cout << "Current version is " << VERSION << endl;
                 return 0;
             case 'i':
                 source_code = strdup(optarg);
@@ -90,10 +90,12 @@ void showHelp(char *s)
     cout << "         " << "-v  show version infomation" << endl;
     cout << "         " << "-i  input file (source file)" << endl;
     cout << "         " << "-s  byte stream enclosed in \" ex: \"myStream\"" << endl;
-    cout << "         " << "-f  file with input stream (first line read only)" << endl;
-    cout << "         " << "-o hex | str | hexstr | \"file name\" where output is saved as binary data" << endl;
-    cout << "example: " << s << " -i source.afj -s \"hello world!\"" << endl;
-    cout << "example: " << s << " -i source.afj -f stream.byte" << endl;
+    cout << "         " << "-f  file with input stream (binary data)" << endl;
+    cout << "         " << "-o  hex | str | hexstr | \"file name\" where output is saved as binary data" << endl;
+    cout << endl;
+    cout << "example: " << s << " -i source.afj -s \"hello world!\" -o hex" << endl;
+    cout << "example: " << s << " -i source.afj -f stream.bin -o hexstr" << endl;
+    cout << "example: " << s << " -i source.afj -o myoutfile.bin" << endl;
 }
 
 inline bool fileExists (const string& file_name)
