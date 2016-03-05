@@ -71,6 +71,7 @@ void Interpreter::print()
 {
     if (!u_output_stream.empty())
     {
+        if (print_option.empty()) return;
         if (!print_option.compare("str"))
         {
             printStreamAsString(u_output_stream);
@@ -79,6 +80,11 @@ void Interpreter::print()
         {
             printStreamAsHex(u_output_stream);
             printStreamAsString(u_output_stream);
+        }
+        else if (!print_option.compare("strhex"))
+        {
+            printStreamAsString(u_output_stream);
+            printStreamAsHex(u_output_stream);
         }
         else
         {
@@ -104,6 +110,7 @@ void Interpreter::printString()
 bool Interpreter::bracketsPairCheck()
 {
     if (*match(source_code.c_str()) == '\0') return true;
+    cout << "Source code syntax error: brackets do not match." << endl;
     return false;
 }
 
@@ -191,6 +198,12 @@ void Interpreter::writeBinaryFile(const string &file_name)
 {
     if (!file_name.empty())
     {
+        if (u_output_stream.empty())
+        {
+            cout << "(out) Stream is empty, nothing to write to file." << endl;
+            return;
+        }
+
         ofstream fo(file_name, ios::binary);
 
         if (fo.is_open())
@@ -198,6 +211,5 @@ void Interpreter::writeBinaryFile(const string &file_name)
             fo.write ((char *) u_output_stream.data(), u_output_stream.length());
             fo.close();
         }
-        //else cerr << "Can not open file!" << endl;
     }
 }

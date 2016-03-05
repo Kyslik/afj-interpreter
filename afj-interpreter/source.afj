@@ -1,9 +1,13 @@
 [
-    Martin Kiesel
-    palindrome maker
+    source.afj
+    Source Code
+
+    Created by Martin Kiesel on 01/03/16.
+    Copyright © 2016 Martin Kiesel. All rights reserved.
+
+    run afj-interpreter such as:
+    ./afj-interpreter -i source.afj -s "tattar" -p strhex
 
 ]
 
-[RW>RW>RW>RW>RW[>+[-<[->>+<<]>>W<<]<]]
-
--[W-]W
+RW>RW>RW>RW>RW>RW[>+[-<[->>+<<]>>W<<]<]

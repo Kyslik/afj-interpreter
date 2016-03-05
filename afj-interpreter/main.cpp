@@ -7,18 +7,15 @@
 //
 
 #include <iostream>
-#include <fstream>
-#include <typeinfo>
 #include <sys/stat.h>
-#include <unistd.h>
 #include "lib/Interpreter/Interpreter.cpp"
-#include <iomanip>
 
 using namespace std;
 
-const char* VERSION = "1.0.9";
+const char* VERSION = "2.0.0";
 
 void showHelp (char *s);
+void showExamples (char *s);
 
 bool validateArguments (string &input_file, const string &input_stream, const string &stream_file, string *out_file, bool *overwrite_out_file, const string &print_option);
 bool fileExists (const string &file_name);
@@ -30,7 +27,7 @@ int main (int argc, char *argv[])
     string source_code, stream_file, input_stream, print_option, out_file;
     bool overwrite_out_file = false;
 
-    while((get_opt = getopt(argc, argv, "hvi:s:f:p:o:x")) != -1)
+    while((get_opt = getopt(argc, argv, "hvei:s:f:p:o:x")) != -1)
     {
         switch(get_opt)
         {
@@ -39,6 +36,9 @@ int main (int argc, char *argv[])
                 return 0;
             case 'v':
                 cout << "Current version is " << VERSION << endl;
+                return 0;
+            case 'e':
+                showExamples(argv[0]);
                 return 0;
             case 'i':
                 source_code = strdup(optarg);
@@ -77,10 +77,6 @@ int main (int argc, char *argv[])
         Interpreter.writeOutputToFile();
         Interpreter.print();
     }
-    else
-    {
-        cout << "Source code syntax error: brackets do not match." << endl;
-    }
 
     return 0;
 }
@@ -90,10 +86,11 @@ void showHelp(char *s)
     cout << "Usage:   " << s << " [-option] [argument]" << endl;
     cout << "option:  " << "-h  show help" << endl;
     cout << "         " << "-v  show version infomation" << endl;
+    cout << "         " << "-e  show examples" << endl;
     cout << "         " << "-i  input file (source code file) / default \"source.afj\"" << endl;
     cout << "         " << "-s  byte stream enclosed in \" ex: \"myStream\"" << endl;
     cout << "         " << "-f  file with input stream (binary file)" << endl;
-    cout << "         " << "-p  hex (default) | str | hexstr / print to console" << endl;
+    cout << "         " << "-p  hex (default) | str | hexstr | strhex / print to console" << endl;
     cout << "         " << "-o  \"file name\" where output is saved as binary data" << endl;
     cout << "         " << "-x  do not ask to overwrite output file (DOES OVERWRITE FILE)" << endl;
     cout << endl;
@@ -101,6 +98,19 @@ void showHelp(char *s)
     cout << "example: " << s << " -i source.afj -s \"hello world!\" -p hex" << endl;
     cout << "example: " << s << " -i source.afj -f stream.bin -p hexstr" << endl;
     cout << "example: " << s << " -i source.afj -o myoutfile.bin" << endl;
+    cout << "See more examples using -e option." << endl;
+}
+
+void showExamples(char *s)
+{
+    cout << "Lets assume source code is saved in \"./source.afj\", our input stream of bytes is in binary file \"./stream.bin\" and file we write to is \"out.bin\"." << endl;
+    cout << "Showing examples for " << s << " program:" << endl;
+    cout << s << " -i source.afj -s \"ABCDE\" -o out.bin" << endl;
+    cout << s << " -i source.afj -s \"ABCDE\" -o out.bin -x" << endl;
+    cout << s << " -i source.afj -f stream.bin -o out.bin -x" << endl;
+    cout << s << " -i source.afj -f stream.bin -p hexstr" << endl;
+    cout << s << " -i source.afj -f stream.bin -p str -o out.bin -x" << endl;
+
 }
 
 inline bool fileExists (const string& file_name)
@@ -120,7 +130,7 @@ bool validateArguments (string &source_code,
 
     if (source_code.empty())
     {
-        cerr << "Input file (source file) not specified. Please use -i option. \nTrying \"source.afj\"" << endl;
+        cerr << "Input file (source file) not specified. Please use -i option... trying \"source.afj\"." << endl;
         source_code = "source.afj";
     }
 
@@ -132,7 +142,7 @@ bool validateArguments (string &source_code,
 
     if (input_stream.empty() && stream_file.empty())
     {
-        cout << "Input stream (or stream file) not defined by user, please use either -s or -f option. \nUsing '0x00' (NULL) for all \"R\" instructions." << endl;
+        cout << "Input stream of bytes (or file) not defined by user, please use either -s or -f option. \nUsing '0x00' (NULL) for all \"R\" instructions." << endl;
     }
 
     if (!stream_file.empty() && !fileExists(stream_file))
@@ -166,9 +176,9 @@ bool validateArguments (string &source_code,
         }
     }
 
-    if (!(!print_option.compare("hex") || !print_option.compare("str") || !print_option.compare("hexstr")))
+    if (!print_option.empty() && !(!print_option.compare("hex") || !print_option.compare("str") || !print_option.compare("hexstr")))
     {
-        cout << "Printing option is unrecognized using default printing method (hex)." << endl;
+        cout << "Printing option is unrecognized, using default printing method (hex)." << endl;
     }
 
     return true;

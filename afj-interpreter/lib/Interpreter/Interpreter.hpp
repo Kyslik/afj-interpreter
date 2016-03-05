@@ -11,9 +11,8 @@
 
 #include <iostream>
 #include <fstream>
-#include <unistd.h>
-#include "../../lib/BoundedIndex/BoundedIndex.cpp"
 #include <iomanip>
+#include "../../lib/BoundedIndex/BoundedIndex.cpp"
 
 using namespace std;
 
@@ -37,16 +36,20 @@ public:
     };
 
     void run();
+    void print();
     inline void writeOutputToFile()
     {
         writeBinaryFile(out_file);
     }
-
-    void print();
     bool bracketsPairCheck();
 
-    
 private:
+    void writeBinaryFile(const string &file_name);
+    void printStreamAsHex(const ustring &ustring);
+    void printStreamAsString(const ustring &ustring);
+    void printHex();
+    void printString();
+
     inline ustring convert(const string &string)
     {
         return ustring(string.begin(), string.end());
@@ -81,12 +84,6 @@ private:
 
     string readFile(const string &file_name, bool skip_white_space);
     string readBinaryFile(const string &file_name);
-    void writeBinaryFile(const string &file_name);
-    
-    void printStreamAsHex(const ustring &ustring);
-    void printStreamAsString(const ustring &ustring);
-    void printHex();
-    void printString();
 
     const char *match(const char *str)
     {
