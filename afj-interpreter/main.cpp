@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <sys/stat.h>
+#include <unistd.h>
 #include "lib/Interpreter/Interpreter.cpp"
 
 using namespace std;
@@ -31,6 +32,8 @@ int main (int argc, char *argv[])
     {
         switch(get_opt)
         {
+            case '?':
+                return 0;
             case 'h':
                 showHelp(argv[0]);
                 return 0;
