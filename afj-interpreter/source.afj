@@ -8,6 +8,8 @@
     run afj-interpreter such as:
     ./afj-interpreter -i source.afj -s "tattar" -p strhex
 
+    Prints onomatopoeic palindrome https://en.wikipedia.org/wiki/Palindrome#Long_palindromes
+
 ]
 
 RW>RW>RW>RW>RW>RW[>+[-<[->>+<<]>>W<<]<]

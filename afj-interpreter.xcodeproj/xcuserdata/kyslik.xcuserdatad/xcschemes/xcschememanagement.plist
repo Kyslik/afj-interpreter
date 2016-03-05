@@ -4,18 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ABC RW afj-interpreter.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
-		</dict>
 		<key>afj-interpreter.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>example arg afj-interpreter.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>help arg afj-interpreter.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
@@ -29,13 +31,10 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
-		<key>stream.byte RW afj-interpreter.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
 		<key>version arg afj-interpreter.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>

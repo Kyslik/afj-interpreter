@@ -64,11 +64,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-i source.afj"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-s &quot;ABC&quot;"
+            argument = "-e"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

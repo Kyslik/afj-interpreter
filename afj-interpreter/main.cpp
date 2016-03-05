@@ -153,7 +153,7 @@ bool validateArguments (string &source_code,
     
     if (!_out_file.empty() && !*overwrite_out_file && fileExists(_out_file))
     {
-        char yes_no;
+        char yes_no = NULL;
 
         cout << "File \"" << _out_file << "\" already exist (use option -x to make this question disappear in future), do you want to overwrite?" << endl;
 
