@@ -33,7 +33,7 @@ int main (int argc, char *argv[])
         switch(get_opt)
         {
             case '?':
-                return 0;
+                return 1;
             case 'h':
                 showHelp(argv[0]);
                 return 0;
@@ -89,19 +89,18 @@ void showHelp(char *s)
     cout << "Usage:   " << s << " [-option] [argument]" << endl;
     cout << "option:  " << "-h  show help" << endl;
     cout << "         " << "-v  show version infomation" << endl;
-    cout << "         " << "-e  show examples" << endl;
-    cout << "         " << "-i  input file (source code file) / default \"source.afj\"" << endl;
-    cout << "         " << "-s  byte stream enclosed in \" ex: \"myStream\"" << endl;
-    cout << "         " << "-f  file with input stream (binary file)" << endl;
-    cout << "         " << "-p  hex (default) | str | hexstr | strhex / print to console" << endl;
-    cout << "         " << "-o  \"file name\" where output is saved as binary data" << endl;
-    cout << "         " << "-x  do not ask to overwrite output file (DOES OVERWRITE FILE)" << endl;
+    cout << "         " << "-e  show more examples" << endl;
+    cout << "         " << "-i  [FILE] input file (source code file) / default \"source.afj\"" << endl;
+    cout << "         " << "-s  [\"myStream\"] array of bytes (printable) enclosed in \"" << endl;
+    cout << "         " << "-f  [FILE] binary file with input array of bytes (stream of bytes)" << endl;
+    cout << "         " << "-p  [hex | str | hexstr | strhex] / print to console" << endl;
+    cout << "         " << "-o  [FILE] binary file where output stream of bytes is saved" << endl;
+    cout << "         " << "-x  do not ask to overwrite output file (-o option) (DOES OVERWRITE FILE WITHOUT ASKING)" << endl;
     cout << endl;
     cout << "example: " << s << endl;
     cout << "example: " << s << " -i source.afj -s \"hello world!\" -p hex" << endl;
     cout << "example: " << s << " -i source.afj -f stream.bin -p hexstr" << endl;
     cout << "example: " << s << " -i source.afj -o myoutfile.bin" << endl;
-    cout << "See more examples using -e option." << endl;
 }
 
 void showExamples(char *s)
