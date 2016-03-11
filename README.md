@@ -1,4 +1,4 @@
-# afj-interpreter
+# afj-interpreter (modified Brainfuck)
 An interpreter for AFJ class in SS 2016.
 
 
